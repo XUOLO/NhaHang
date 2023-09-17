@@ -25,18 +25,22 @@
                     <tr>
                         <th scope="col">Image</th>
                         <th scope="col">Name</th>
+
+
+                        <th scope="col">Create date</th>
                         <th scope="col">Description</th>
                         <th scope="col">Price</th>
-<!--                        <th scope="col">Create date</th>-->
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="list : ${listProduct}">
                         <td><img height="100px"  th:src="@{${'/display?id=' + list.id}}" alt=""></td>
                         <td th:text="${list.name}"></td>
-                        <td th:text="${list.description}"></td>
-                        <td th:text="${list.price}"></td>
 
+
+                        <td th:text="${#temporals.format(list.createTime, 'dd/MM/yyyy')}">Create date</td>
+                        <td th:text="${list.description}"></td>
+                        <td th:text="${list.price+ ' VND'} "></td>
 
 
                     </tr>

@@ -2,6 +2,7 @@ package com.example.sv.Model;
 
 import java.beans.Transient;
 import java.sql.Blob;
+import java.time.LocalDateTime;
 
 
 import jakarta.persistence.*;
@@ -43,6 +44,37 @@ public class Product {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productCategory_id")
 	private ProductCategory productCategory;
+
+	private LocalDateTime createTime;
+
+	public LocalDateTime getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(LocalDateTime createTime) {
+		this.createTime = createTime;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getStatusString() {
+		switch (status) {
+			case "1":
+				return "Open";
+			case "2":
+				return "In Progress";
+			case "3":
+				return "Resolved";
+			default:
+				return "Unknown";
+		}
+	}
+	public String getStatus() {
+		return status;
+	}
+
+	private String status;
 
 	public Long getId() {
 		return id;

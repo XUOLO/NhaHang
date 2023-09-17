@@ -21,6 +21,7 @@ import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @Controller
 public class ProductController {
@@ -71,6 +72,7 @@ public class ProductController {
             byte[] bytes = file.getBytes();
             Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
             product.setImage(blob);
+            product.setCreateTime(LocalDateTime.now());
             ProductService.saveProduct(product);
             return "redirect:/list_product";
         }
