@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Admin/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main id="main" layout:fragment="main"class="main">
+
+
+
+    <!-- Top Selling -->
+
+        <div class="card top-selling overflow-auto">
+
+
+
+            <div class="card-body pb-0">
+                <h5 class="card-title">List product <a href="/new_product"><button type="button" class="btn btn-primary">Add Product</button></a>
+                </h5>
+
+                <table class="table table-borderless">
+                    <thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+<!--                        <th scope="col">Create date</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="list : ${listProduct}">
+                        <td><img height="100px"  th:src="@{${'/display?id=' + list.id}}" alt=""></td>
+                        <td th:text="${list.name}"></td>
+                        <td th:text="${list.description}"></td>
+                        <td th:text="${list.price}"></td>
+
+
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    <!-- End Top Selling -->
+
+
+
+
+
+
+
+</main>
+</body>
+</html>
