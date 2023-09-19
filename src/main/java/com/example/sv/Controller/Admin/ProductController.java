@@ -37,20 +37,9 @@ public class ProductController {
     private ProductRepository productRepository;
     @GetMapping("/admin")
     public String index(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/login";
-        }
 
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
-        boolean isEmployee = authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_EMPLOYEE"));
-
-        if (isAdmin||isEmployee) {
             return "Admin/index";
-        } else {
-            return "User/home";
-        }
+
     }
 
 

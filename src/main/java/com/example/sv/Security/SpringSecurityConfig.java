@@ -25,15 +25,17 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
+
                 .authorizeRequests()
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/admin/list_product").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
                 .requestMatchers("/admin/showFormForUpdateProduct/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/admin/new_product").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/admin/deleteProduct/**").hasAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated()
+                    .anyRequest().authenticated()
                 .and()
                 .formLogin(login -> login
-                        .loginPage("/admin")
+                        .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .failureUrl("/login?error")
                         .defaultSuccessUrl("/admin")
