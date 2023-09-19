@@ -15,26 +15,26 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">General Form Elements</h5>
+                        <h5 class="card-title">New product</h5>
 
                         <!-- General Form Elements -->
-                        <form th:action="@{/addProduct}" method="post" th:object="${product}" enctype="multipart/form-data">
+                        <form th:action="@{/admin/addProduct}" method="post" th:object="${product}" enctype="multipart/form-data">
                             <div class="row mb-3">
-                                <label for="name" class="col-sm-2 col-form-label">Text</label>
+                                <label for="name" class="col-sm-2 col-form-label">Name</label>
                                 <div class="col-sm-10">
                                     <input type="text"  id="name" name="name" th:field="*{name}" class="form-control">
                                     <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="detail" class="col-sm-2 col-form-label">Text</label>
+                                <label for="detail" class="col-sm-2 col-form-label">Detail</label>
                                 <div class="col-sm-10">
                                     <input type="text"  id="detail" name="name" th:field="*{detail}" class="form-control">
                                     <span class="text-danger" th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="description" class="col-sm-2 col-form-label">Text</label>
+                                <label for="description" class="col-sm-2 col-form-label">Description</label>
                                 <div class="col-sm-10">
                                     <input type="text"  id="description" name="description" th:field="*{description}" class="form-control">
                                     <span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Submit Button</label>
+
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary">Submit Form</button>
                                 </div>

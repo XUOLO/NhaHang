@@ -61,11 +61,10 @@ public class Product {
 	public String getStatusString() {
 		switch (status) {
 			case "1":
-				return "Open";
+				return "Selling";
 			case "2":
-				return "In Progress";
-			case "3":
-				return "Resolved";
+				return "Not selling";
+
 			default:
 				return "Unknown";
 		}
