@@ -35,12 +35,6 @@ public class ProductController {
     private ProductCategoryService ProductCategoryService;
     @Autowired
     private ProductRepository productRepository;
-    @GetMapping("/admin")
-    public String index(Authentication authentication) {
-
-            return "Admin/index";
-
-    }
 
 
     @GetMapping("/display")
@@ -54,8 +48,7 @@ public class ProductController {
     @GetMapping("/admin/list_product")
     public String showListProduct(Model model) {
 
-        // Định dạng tiền VND
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("vi_VN"));
+
 
         model.addAttribute("listProduct", ProductService.getAllProduct());
         model.addAttribute("listProductCategory", ProductCategoryService.getAllProductCategory());
@@ -158,5 +151,8 @@ public class ProductController {
         this.ProductService.deleteProductById(id);
         return "redirect:/admin/list_product";
     }
+
+
+
 
 }

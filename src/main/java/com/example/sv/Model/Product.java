@@ -20,21 +20,21 @@ public class Product {
 	  private Long id;
 
 
-	@NotBlank(message = "Đặc điểm không được để trống")
+	@NotBlank(message = "Name not null")
 	  @Column(name = "Name")
 	  private String name;
 
-	@NotBlank(message = "Đặc điểm không được để trống")
+	@NotBlank(message = "Description not null ")
 	  @Column(name = "Description")
 	  private String description;
 
 	  @Lob
 	  private Blob image;
 
-	@Positive(message = "Đơn giá phải lớn hơn 0")
+	@Positive(message = "Price > 0")
 	  @Column(name = "Price")
 	  private int price;
-	  @NotBlank(message = "Đặc điểm không được để trống")
+	  @NotBlank(message = "Detail not null")
 	  @Column(name = "Detail")
 	  private String detail;
 
