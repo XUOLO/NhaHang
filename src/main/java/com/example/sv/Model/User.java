@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Blob;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Setter
@@ -27,6 +29,8 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    private String phone;
+    private String address;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
@@ -34,6 +38,42 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles;
+
+    private LocalDateTime createTime;
+    @Lob
+    private Blob image;
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Long getId() {
         return id;

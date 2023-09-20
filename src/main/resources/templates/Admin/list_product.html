@@ -40,7 +40,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="list : ${listProduct}">
-                        <td><img height="100px"  th:src="@{${'/display?id=' + list.id}}" alt=""></td>
+                        <td>
+                            <img height="100px" th:if="${list.image != null}" th:src="@{'/display?id=' + ${list.id}}" alt="">
+                            <img height="100px" th:unless="${list.image != null}" src="/Admin/img/foodDefault.png" alt="">
+                        </td>
                         <td th:text="${list.name}"></td>
 
 

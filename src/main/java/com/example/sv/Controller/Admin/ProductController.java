@@ -76,20 +76,17 @@ public class ProductController {
 
     @PostMapping("/admin/addProduct")
     public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("image") MultipartFile file, Model model) throws IOException, SerialException, SQLException {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("listCategory", CategoryService.getAllCategory());
-//            return "Admin/new_product";
-//        } else dang bi loi binding image
-
-        {
+        if (file.isEmpty()) {
+            product.setImage(null); // Gán giá trị null cho trường 'image' nếu không có tệp tin tải lên
+        } else {
             byte[] bytes = file.getBytes();
             Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-            product.setImage(blob);
-            product.setCreateTime(LocalDateTime.now());
-            product.setStatus("2");
-            ProductService.saveProduct(product);
-            return "redirect:/admin/list_product";
+            product.setImage(blob); // Gán giá trị 'blob' cho trường 'image' nếu có tệp tin tải lên
         }
+        product.setCreateTime(LocalDateTime.now());
+        product.setStatus("2");
+        ProductService.saveProduct(product);
+        return "redirect:/admin/list_product";
     }
 
 
@@ -115,9 +112,13 @@ public class ProductController {
                            Model model,
                            @RequestParam("image") MultipartFile file) throws IOException, SerialException, SQLException {
 
-                byte[] bytes = file.getBytes();
-                Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-                product.setImage(blob);
+        if (file.isEmpty()) {
+            product.setImage(null); // Gán giá trị null cho trường 'image' nếu không có tệp tin tải lên
+        } else {
+            byte[] bytes = file.getBytes();
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+            product.setImage(blob); // Gán giá trị 'blob' cho trường 'image' nếu có tệp tin tải lên
+        }
 
             ProductService.saveProduct(product);
             return "redirect:/admin/list_product";
