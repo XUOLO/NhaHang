@@ -24,7 +24,7 @@
           <div class="row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-              <input type="text"  id="name" name="name" th:field="*{name}" class="form-control">
+              <input type="text"  id="name"required name="name" th:field="*{name}" class="form-control">
               <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
           </div>
@@ -32,7 +32,7 @@
           <div class="row mb-3">
             <label for="description" class="col-sm-2 col-form-label">Description</label>
             <div class="col-sm-10">
-              <input type="text"  id="description" name="description" th:field="*{description}" class="form-control">
+              <input type="text"  id="description" required name="description" th:field="*{description}" class="form-control">
               <span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
             </div>
           </div>

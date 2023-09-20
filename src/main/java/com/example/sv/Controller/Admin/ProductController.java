@@ -46,10 +46,18 @@ public class ProductController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
     @GetMapping("/admin/list_product")
-    public String showListProduct(Model model) {
+    public String showListProduct(Authentication authentication,Model model) {
 
 
+        String username = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        boolean isEmployee = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_EMPLOYEE"));
 
+        model.addAttribute("username", username);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isEmployee", isEmployee);
         model.addAttribute("listProduct", ProductService.getAllProduct());
         model.addAttribute("listProductCategory", ProductCategoryService.getAllProductCategory());
 

@@ -7,6 +7,7 @@ import com.example.sv.Service.ProductCategoryService;
 import com.example.sv.Service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +31,17 @@ public class ProductCategoryController {
 
 
     @GetMapping("/admin/list_productCategory")
-    public String showListProductCategory(Model model) {
+    public String showListProductCategory(Authentication authentication, Model model) {
 
+        String username = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        boolean isEmployee = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_EMPLOYEE"));
 
+        model.addAttribute("username", username);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isEmployee", isEmployee);
         model.addAttribute("listProductCategory", productCategoryService.getAllProductCategory());
 
 

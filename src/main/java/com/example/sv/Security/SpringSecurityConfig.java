@@ -28,12 +28,11 @@ public class SpringSecurityConfig {
 
                 .authorizeRequests()
                 .requestMatchers("/").permitAll()
-                .requestMatchers("/admin/list_product").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
-                .requestMatchers("/admin/showFormForUpdateProduct/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
-                .requestMatchers("/admin/new_product").hasAuthority("ROLE_ADMIN")
 
-                .requestMatchers("/admin/deleteProduct/**").hasAuthority("ROLE_ADMIN")
-                    .anyRequest().authenticated()
+                .requestMatchers("/admin/deleteProduct/*").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
+
+                .anyRequest().authenticated()
                 .and()
                 .formLogin(login -> login
                         .loginPage("/login")
@@ -52,7 +51,8 @@ public class SpringSecurityConfig {
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/logout"))
-                );
+                ) ;
+
 
         return http.build();
     }

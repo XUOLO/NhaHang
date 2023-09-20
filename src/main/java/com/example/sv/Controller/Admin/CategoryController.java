@@ -7,6 +7,7 @@ import com.example.sv.Repository.CategoryRepository;
 import com.example.sv.Service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,10 +29,18 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/admin/list_category")
-    public String showListCategory(Model model) {
+    public String showListCategory(Authentication authentication, Model model) {
 
 
+        String username = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        boolean isEmployee = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_EMPLOYEE"));
 
+        model.addAttribute("username", username);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isEmployee", isEmployee);
         model.addAttribute("listCategory", categoryService.getAllCategory());
 
         return "Admin/list_category";

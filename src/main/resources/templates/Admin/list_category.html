@@ -48,7 +48,7 @@
           <td >
 
             <a  th:href="@{/admin/showFormForUpdateCategory/{id}(id=${list.id})}" ><i  style="color:blue;" class="bx bxs-pencil"></i></a>
-            <a th:href="@{/admin/deleteCategory/{id}(id=${list.id})}" ><i style="color:red;"  class="bx bxs-trash"></i></a>
+            <a th:if="${isAdmin}" th:href="@{/admin/deleteCategory/{id}(id=${list.id})}" ><i style="color:red;"  class="bx bxs-trash"></i></a>
 
 
           </td>
