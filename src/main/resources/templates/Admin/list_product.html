@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{Admin/index}">
+      layout:decorate="~{Admin/index}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -59,11 +59,14 @@
                         </td>
                         <td >
 
-                             <a  th:href="@{/admin/showFormForUpdateProduct/{id}(id=${list.id})}" ><i  style="color:blue;" class="bx bxs-pencil"></i></a>
-                            <a th:href="@{/admin/deleteProduct/{id}(id=${list.id})}" ><i style="color:red;"  class="bx bxs-trash"></i></a>
+                                 <a sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_EMPLOYEE')"  th:href="@{/admin/showFormForUpdateProduct/{id}(id=${list.id})}" ><i  style="color:blue;" class="bx bxs-pencil"></i></a>
+
+                                 <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/deleteProduct/{id}(id=${list.id})}" ><i style="color:red;"  class="bx bxs-trash"></i></a>
 
 
                         </td>
+
+
                     </tr>
 
                     </tbody>

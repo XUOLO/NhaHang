@@ -25,6 +25,7 @@
                     <th scope="col">Name</th>
 
                     <th scope="col">Description</th>
+                    <th scope="col"> </th>
 
 
                 </tr>
@@ -35,7 +36,13 @@
                     <td th:text="${list.name}"></td>
 
                     <td th:text="${list.description}"></td>
+                    <td >
 
+                        <a  th:href="@{/admin/showFormForUpdateProductCategory/{id}(id=${list.id})}" ><i  style="color:blue;" class="bx bxs-pencil"></i></a>
+                        <a th:href="@{/admin/deleteProductCategory/{id}(id=${list.id})}" ><i style="color:red;"  class="bx bxs-trash"></i></a>
+
+
+                    </td>
                 </tr>
                 </tbody>
             </table>

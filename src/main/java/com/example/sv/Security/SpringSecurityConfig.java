@@ -29,8 +29,9 @@ public class SpringSecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/admin/list_product").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
-                .requestMatchers("/admin/showFormForUpdateProduct/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/admin/showFormForUpdateProduct/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
                 .requestMatchers("/admin/new_product").hasAuthority("ROLE_ADMIN")
+
                 .requestMatchers("/admin/deleteProduct/**").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
                 .and()
@@ -55,8 +56,12 @@ public class SpringSecurityConfig {
 
         return http.build();
     }
+
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
+
 }

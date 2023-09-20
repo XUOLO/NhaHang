@@ -85,31 +85,8 @@ public class ProductController {
     }
 
 
-    @GetMapping("/admin/list_productCategory")
-    public String showListProductCategory(Model model) {
 
 
-        model.addAttribute("listProductCategory", ProductCategoryService.getAllProductCategory());
-
-
-        return "Admin/list_productCategory";
-    }
-    @GetMapping("/admin/new_productCategory")
-    public String showNewProductCategory(Model model) {
-        ProductCategory productCategory = new ProductCategory();
-        model.addAttribute("productCategory", productCategory);
-
-        return "Admin/new_productCategory";
-    }
-    @PostMapping("/admin/addProductCategory")
-    public String addProductCategory(@Valid @ModelAttribute("productCategory") ProductCategory productCategory, BindingResult bindingResult, Model model) throws IOException, SerialException, SQLException {
-
-
-
-            ProductCategoryService.saveProductCategory(productCategory);
-            return "redirect:/admin/list_productCategory";
-
-    }
 
 
     @PostMapping("/admin/{id}/updateStatus")
