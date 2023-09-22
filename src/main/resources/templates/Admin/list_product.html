@@ -27,6 +27,7 @@
                     <tr>
                         <th scope="col">Image</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Product category</th>
 
 
                         <th scope="col">Create date</th>
@@ -45,6 +46,8 @@
                             <img height="100px" th:unless="${list.image != null}" src="/Admin/img/foodDefault.png" alt="">
                         </td>
                         <td th:text="${list.name}"></td>
+                        <td th:text="${list.productCategory.name}"></td>
+
 
 
                         <td th:text="${#temporals.format(list.createTime, 'dd/MM/yyyy')}">Create date</td>

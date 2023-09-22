@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @AllArgsConstructor
-public class SpringSecurityConfig {
+public class SpringSecurityConfig  {
 
     private UserDetailsService userDetailsService;
     @Bean
@@ -29,9 +29,12 @@ public class SpringSecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/").permitAll()
 
+                .requestMatchers("/Admin/css/**", "/Admin/js/**", "/Admin/img/**", "/Admin/vendor/**", "/Admin/scss/**").permitAll()
+                .requestMatchers("/User/css/**", "/User/js/**", "/User/images/**", "/User/fonts/**").permitAll()
                 .requestMatchers("/admin/deleteProduct/*").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
+                .requestMatchers("/user/**").permitAll()
 
+                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(login -> login

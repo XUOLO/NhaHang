@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -100,6 +101,8 @@ public class StaffController {
             // Truyền thông tin người dùng vào Model để hiển thị trên giao diện
             model.addAttribute("user", user);
             model.addAttribute("roles", user.getRoles());
+            model.addAttribute("listRole", roleService.getAllRole());
+
 
             return "Admin/staff_profile";
         }
@@ -112,6 +115,41 @@ public class StaffController {
         byte [] imageBytes = null;
         imageBytes = user.getImage().getBytes(1,(int) user.getImage().length());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+    }
+
+
+    @PostMapping("/admin/updateProfile")
+    public String updateProduct(@ModelAttribute("user") @Valid  User user, BindingResult bindingResult,
+                                Model model,
+                                @RequestParam("image") MultipartFile file) throws IOException, SerialException, SQLException {
+
+        if (file.isEmpty()) {
+            user.setImage(null); // Gán giá trị null cho trường 'image' nếu không có tệp tin tải lên
+        } else {
+            byte[] bytes = file.getBytes();
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+            user.setImage(blob); // Gán giá trị 'blob' cho trường 'image' nếu có tệp tin tải lên
+        }
+
+        userService.saveUser(user);
+        return "redirect:/admin/staff_profile";
+
+    }
+
+
+
+    @PostMapping("/admin/changePasswordStaff")
+    public String changePasswordStaff(@ModelAttribute("user") @Valid  User user, BindingResult bindingResult,
+                                      @RequestParam("currentPassword") String currentPassword,
+                                      @RequestParam("newPassword") String newPassword,
+                                      @RequestParam("confirmPassword") String confirmPassword,Authentication authentication, Model model
+                                 ) throws IOException, SerialException, SQLException {
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+         userService.saveUser(user);
+        return "redirect:/admin/staff_profile";
+
     }
 
 }

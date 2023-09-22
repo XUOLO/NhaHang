@@ -39,5 +39,12 @@ public class UserService {
     public User viewById(long id) {
         return userRepository.findById(id).get();
     }
+    public void changePassword(String username, String newEncodedPassword) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setPassword(newEncodedPassword);
+            userRepository.save(user);
+        }
+    }
 
 }

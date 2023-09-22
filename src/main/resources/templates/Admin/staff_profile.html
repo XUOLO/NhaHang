@@ -27,8 +27,7 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-             <img th:src="@{'/displayStaff?id=' + ${user.id}}" class="rounded-circle" alt="Profile">
-
+            <img th:src="${user.image != null ? '/displayStaff?id=' + user.id : '/Admin/img/nullProfile.png'}" class="rounded-circle" alt="Profile">
             <h2 th:text=" ${user.name}">  </h2>
 
             <h3 th:if="${isAdmin}"> <p>ADMIN</p></h3>
@@ -55,13 +54,11 @@
                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
               </li>
 
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
-              </li>
+<!--              <li class="nav-item">-->
+<!--                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>-->
+<!--              </li>-->
 
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
-              </li>
+
 
               <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
@@ -71,8 +68,6 @@
             <div class="tab-content pt-2">
 
               <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                <h5 class="card-title">About</h5>
-                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
 
                 <h5 class="card-title">Profile Details</h5>
 
@@ -114,159 +109,97 @@
 
               </div>
 
-              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+<!--              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">-->
 
-                <!-- Profile Edit Form -->
-                <form>
-                  <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                    <div class="col-md-8 col-lg-9">
-                      <img src="../../../../Admin/img/profile-img.jpg" alt="Profile">
+<!--                &lt;!&ndash; Profile Edit Form &ndash;&gt;-->
+<!--&lt;!&ndash;                <form th:action="@{/admin/updateProfile}" method="post" th:object="${user}" enctype="multipart/form-data">&ndash;&gt;-->
 
-                      <div class="pt-2">
-                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                      </div>
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                  <input type="hidden" th:field="${user.id}" />&ndash;&gt;-->
+<!--&lt;!&ndash;                  <input type="hidden" name="originalImage" th:value="${user.image != null ? 'true' : 'false'}">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <div class="row mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="image" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="col-md-8 col-lg-9">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <img th:src="${user.image != null ? '/displayStaff?id=' + user.id : '/Admin/img/nullProfile.png'}" class="rounded-circle" alt="Profile">&ndash;&gt;-->
 
-                  <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                      <div class="pt-2">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <input class="form-control"  type="file"id="image" name="image" accept="image/*"  >&ndash;&gt;-->
+<!--&lt;!&ndash;                       </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
 
-                  <div class="row mb-3">
-                    <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
-                    <div class="col-md-8 col-lg-9">
-                      <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                  <div class="row mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="col-md-8 col-lg-9">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <input name="name" type="text" class="form-control" th:value=" ${user.name}" id="name"  >&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <input hidden type="text" id="username" name="username" th:field="*{username}"class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <input hidden type="text" id="createTime" name="createTime" th:field="*{createTime}"class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <input hidden type="text" id="password" name="password" th:field="*{password}"class="form-control">&ndash;&gt;-->
 
-                  <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                  <div hidden class="col-lg-9 col-md-8" >&ndash;&gt;-->
 
-                  <div class="row mb-3">
-                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                    <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                      <li th:each="role : ${user.roles}" th:text="${role.name}"></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
 
-                  <div class="row mb-3">
-                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="country" type="text" class="form-control" id="Country" value="USA">
-                    </div>
-                  </div>
 
-                  <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
 
-                  <div class="row mb-3">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
-                    </div>
-                  </div>
 
-                  <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
-                    </div>
-                  </div>
 
-                  <div class="row mb-3">
-                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                  <div class="row mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="col-md-8 col-lg-9">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <input name="job" type="text" class="form-control" id="Job" value="Web Designer">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
 
-                  <div class="row mb-3">
-                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                    </div>
-                  </div>
 
-                  <div class="row mb-3">
-                    <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                    </div>
-                  </div>
 
-                  <div class="row mb-3">
-                    <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                  <div class="row mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="address" class="col-md-4 col-lg-3 col-form-label">Address</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="col-md-8 col-lg-9">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <input name="address" type="text" class="form-control" id="address" th:value=" ${user.address}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
 
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                  </div>
-                </form><!-- End Profile Edit Form -->
+<!--&lt;!&ndash;                  <div class="row mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="col-md-8 col-lg-9">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <input name="phone" type="text" class="form-control" id="phone" th:value=" ${user.phone}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
 
-              </div>
+<!--&lt;!&ndash;                  <div class="row mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="col-md-8 col-lg-9">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <input name="email" type="email" class="form-control" id="email" th:value=" ${user.email}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
 
-              <div class="tab-pane fade pt-3" id="profile-settings">
 
-                <!-- Settings Form -->
-                <form>
 
-                  <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                    <div class="col-md-8 col-lg-9">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                        <label class="form-check-label" for="changesMade">
-                          Changes made to your account
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                        <label class="form-check-label" for="newProducts">
-                          Information on new products and services
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="proOffers">
-                        <label class="form-check-label" for="proOffers">
-                          Marketing and promo offers
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                        <label class="form-check-label" for="securityNotify">
-                          Security alerts
-                        </label>
-                      </div>
-                    </div>
-                  </div>
+<!--&lt;!&ndash;                  <div class="text-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button type="submit" class="btn btn-primary">Save Changes</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                </form>&lt;!&ndash; End Profile Edit Form &ndash;&gt;&ndash;&gt;-->
 
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                  </div>
-                </form><!-- End settings Form -->
+<!--              </div>-->
 
-              </div>
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
                 <form>
+                  <!-- Hiển thị thông báo lỗi -->
+                  <div th:if="${error}" class="alert alert-danger">
+                    <p th:text="${error}"></p>
+                  </div>
 
+                  <!-- Hiển thị thông báo thành công -->
+                  <div th:if="${success}" class="alert alert-success">
+                    <p th:text="${success}"></p>
+                  </div>
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                     <div class="col-md-8 col-lg-9">
@@ -277,14 +210,14 @@
                   <div class="row mb-3">
                     <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="newpassword" type="password" class="form-control" id="newPassword">
+                      <input name="newPassword" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <label for="confirmPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                      <input name="confirmPassword" type="password" class="form-control" id="confirmPassword">
                     </div>
                   </div>
 
