@@ -17,6 +17,7 @@ public class HomeUserController {
 
     @Autowired
     private ProductService productService;
+
     @Autowired
     private CategoryService categoryService;
 
@@ -35,6 +36,9 @@ public class HomeUserController {
     public String showIndexUser(Model model) {
 
         model.addAttribute("listCategory",categoryService.getAllCategory());
+        model.addAttribute("listProductCategory",productCategoryService.getAllProductCategory());
+        model.addAttribute("listProduct",productService.getAllProduct());
+
         return "User/home";
     }
 
@@ -44,7 +48,11 @@ public class HomeUserController {
         Category category = categoryService.getCategoryById(categoryId);
 
         String templateName =   "User/"+  category.getName().toLowerCase()  ;
+
+        model.addAttribute("listProductCategory",productCategoryService.getAllProductCategory());
+        model.addAttribute("listProduct",productService.getAllProduct());
         model.addAttribute("listCategory",categoryService.getAllCategory());
+
 
         model.addAttribute("category", category);
         return templateName;

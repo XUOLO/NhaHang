@@ -35,6 +35,8 @@ public class SpringSecurityConfig  {
                 .requestMatchers("/user/**").permitAll()
 
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
+
+
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(login -> login
