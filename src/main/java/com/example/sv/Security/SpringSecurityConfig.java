@@ -36,6 +36,7 @@ public class SpringSecurityConfig  {
 
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_ADMIN")
 
+                .requestMatchers("/display").permitAll()
 
                 .anyRequest().authenticated()
                 .and()

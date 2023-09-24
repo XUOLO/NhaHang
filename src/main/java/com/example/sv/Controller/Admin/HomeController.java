@@ -2,6 +2,7 @@ package com.example.sv.Controller.Admin;
 
 import com.example.sv.Model.Product;
 import com.example.sv.Model.User;
+import com.example.sv.Repository.UserRepository;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
-
+    @Autowired
+    private  UserRepository userRepository;
     @GetMapping("/login")
     public String showLogin( Model model ) {
 
@@ -33,7 +35,8 @@ public class HomeController {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
         boolean isEmployee = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_EMPLOYEE"));
-
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
         model.addAttribute("username", username);
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isEmployee", isEmployee);

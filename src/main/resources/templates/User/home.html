@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-
-      xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
   <!-- Basic -->
@@ -36,7 +34,7 @@
 
 <body>
 
-<div layout:fragment="hero_area" class="hero_area">
+<div class="hero_area">
   <div class="bg-box">
     <img src="/User/images/hero-bg.jpg" alt="">
   </div>
@@ -376,17 +374,13 @@
 
     <ul class="filters_menu">
       <li class="active" data-filter="*">All</li>
-
       <li  th:each="productCategory : ${listProductCategory}" th:text="${productCategory.name}" th:attr="data-filter='.' + ${productCategory.name}">
-
-      </li>
-
-
 
     </ul>
 
     <div class="filters-content">
-      <div class="row grid" >
+      <div class="row grid">
+
         <div th:each="list : ${listProduct}" th:class="'col-sm-6 col-lg-4 all ' + ${list.productCategory.name}"  >
           <div class="box">
             <div>
@@ -396,6 +390,7 @@
               </div>
               <div class="detail-box">
                 <h5 th:text="${list.name}">
+
                  </h5>
                 <p th:text="${list.description}">
                  </p>
@@ -465,7 +460,11 @@
 
       </div>
     </div>
-
+    <div class="btn-box">
+      <a href="">
+        View More
+      </a>
+    </div>
   </div>
 </section>
 
@@ -658,7 +657,7 @@
             Xuolo
           </a>
           <p>
-            Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+            Welcome to our restaurant, where you can enjoy the most unique and wonderful culinary experiences.            </p>
           </p>
           <div class="footer_social">
             <a href="">
@@ -691,7 +690,14 @@
         </p>
       </div>
     </div>
-
+    <div class="footer-info">
+      <p>
+        &copy; <span id="displayYear"></span>
+        <a href="https://html.design/"> </a><br><br>
+        &copy; <span id="displayYear"></span>
+        <a href="https://themewagon.com/" target="_blank"> </a>
+      </p>
+    </div>
   </div>
 </footer>
 <!-- footer section -->
