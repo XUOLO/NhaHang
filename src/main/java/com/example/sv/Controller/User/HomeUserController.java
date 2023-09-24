@@ -1,6 +1,7 @@
 package com.example.sv.Controller.User;
 
 import com.example.sv.Model.Category;
+import com.example.sv.Model.Contact;
 import com.example.sv.Model.User;
 import com.example.sv.Repository.ProductCategoryRepository;
 import com.example.sv.Repository.ProductRepository;
@@ -53,13 +54,15 @@ public class HomeUserController {
     @GetMapping("/user/category/{id}")
     public String getCategoryPage(@PathVariable("id") Long categoryId, Model model) {
         Category category = categoryService.getCategoryById(categoryId);
-
+        Contact contact= new Contact();
         String templateName =   "User/"+  category.getName().toLowerCase()  ;
 
         model.addAttribute("listProductCategory",productCategoryService.getAllProductCategory());
         model.addAttribute("listProduct",productService.getAllProduct());
         model.addAttribute("listCategory",categoryService.getAllCategory());
 
+
+        model.addAttribute("contact", contact);
 
         model.addAttribute("category", category);
         return templateName;
