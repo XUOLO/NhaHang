@@ -3,6 +3,8 @@ package com.example.sv.Model;
 import java.beans.Transient;
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 import jakarta.persistence.*;
@@ -37,13 +39,23 @@ public class Product {
 	  @NotBlank(message = "Detail not null")
 	  @Column(name = "Detail")
 	  private String detail;
-
+	@Positive(message = "Quantity > 0")
+	@Column(name = "Quantity")
+	private int quantity;
 
 
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productCategory_id")
 	private ProductCategory productCategory;
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	private LocalDateTime createTime;
 
@@ -69,6 +81,8 @@ public class Product {
 				return "Unknown";
 		}
 	}
+	@ManyToMany(mappedBy = "products")
+	private Set<Reservation> reservations = new HashSet<>();
 	public String getStatus() {
 		return status;
 	}
@@ -129,5 +143,13 @@ public class Product {
 
 	public void setProductCategory(ProductCategory productCategory) {
 		this.productCategory = productCategory;
+	}
+
+	public Set<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(Set<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 }

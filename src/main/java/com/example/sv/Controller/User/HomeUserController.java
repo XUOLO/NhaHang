@@ -2,6 +2,7 @@ package com.example.sv.Controller.User;
 
 import com.example.sv.Model.Category;
 import com.example.sv.Model.Contact;
+import com.example.sv.Model.Product;
 import com.example.sv.Model.User;
 import com.example.sv.Repository.ProductCategoryRepository;
 import com.example.sv.Repository.ProductRepository;
@@ -9,6 +10,7 @@ import com.example.sv.Service.CategoryService;
 import com.example.sv.Service.ProductCategoryService;
 import com.example.sv.Service.ProductService;
 import com.example.sv.Service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HomeUserController {
@@ -42,10 +46,18 @@ public class HomeUserController {
 
     @GetMapping("/")
     public String showIndexUser(Model model) {
+        List<Product> productList = productService.getAllProduct();
+        List<Product> sellingProducts = new ArrayList<>();
 
-        model.addAttribute("listCategory",categoryService.getAllCategory());
-        model.addAttribute("listProductCategory",productCategoryService.getAllProductCategory());
-        model.addAttribute("listProduct",productService.getAllProduct());
+        for (Product product : productList) {
+            if ("1".equals(product.getStatus())) {
+                sellingProducts.add(product);
+            }
+        }
+
+        model.addAttribute("listCategory", categoryService.getAllCategory());
+        model.addAttribute("listProductCategory", productCategoryService.getAllProductCategory());
+        model.addAttribute("listProduct", sellingProducts);
 
         return "User/home";
     }
@@ -74,6 +86,12 @@ public class HomeUserController {
         return "User/login";
 
     }
+    @GetMapping("/user/international")
+    public String international(  HttpServletRequest request   ) {
 
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+
+    }
 
 }

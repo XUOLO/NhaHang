@@ -2,9 +2,12 @@ package com.example.sv.Controller.Admin;
 
 import com.example.sv.Model.Product;
 import com.example.sv.Model.ProductCategory;
+import com.example.sv.Model.User;
 import com.example.sv.Repository.ProductRepository;
+import com.example.sv.Repository.UserRepository;
 import com.example.sv.Service.ProductCategoryService;
 import com.example.sv.Service.ProductService;
+import com.example.sv.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -35,7 +38,10 @@ public class ProductController {
     private ProductCategoryService ProductCategoryService;
     @Autowired
     private ProductRepository productRepository;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/display")
     public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
@@ -49,11 +55,14 @@ public class ProductController {
     public String showListProduct(Authentication authentication,Model model) {
 
 
+
         String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
         boolean isEmployee = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_EMPLOYEE"));
+        model.addAttribute("user", user);
 
         model.addAttribute("username", username);
         model.addAttribute("isAdmin", isAdmin);
@@ -66,10 +75,15 @@ public class ProductController {
 
 
     @GetMapping("/admin/new_product")
-    public String showNewProduct(Model model) {
+    public String showNewProduct(Authentication authentication,Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         model.addAttribute("listProductCategory",  ProductCategoryService.getAllProductCategory());
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
+        model.addAttribute("username", username);
+
         return "Admin/new_product";
     }
 
@@ -125,10 +139,14 @@ public class ProductController {
 
     }
     @GetMapping("/admin/showFormForUpdateProduct/{id}")
-    public String showFormForUpdateSP(@PathVariable(value = "id") long id, Model model) {
+    public String showFormForUpdateSP(Authentication authentication,@PathVariable(value = "id") long id, Model model) {
         Product product = ProductService.getProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("listProductCategory", ProductCategoryService.getAllProductCategory());
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
+        model.addAttribute("username", username);
 
         return "Admin/update_product";
     }

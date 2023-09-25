@@ -2,7 +2,9 @@ package com.example.sv.Controller.Admin;
 
 import com.example.sv.Model.Product;
 import com.example.sv.Model.ProductCategory;
+import com.example.sv.Model.User;
 import com.example.sv.Repository.ProductRepository;
+import com.example.sv.Repository.UserRepository;
 import com.example.sv.Service.ProductCategoryService;
 import com.example.sv.Service.ProductService;
 import jakarta.validation.Valid;
@@ -22,7 +24,8 @@ import java.sql.SQLException;
 @Controller
 public class ProductCategoryController {
 
-
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
 
@@ -38,8 +41,9 @@ public class ProductCategoryController {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
         boolean isEmployee = authentication.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_EMPLOYEE"));
-
+         User user = userRepository.findByUsername(username);
         model.addAttribute("username", username);
+        model.addAttribute("user", user);
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isEmployee", isEmployee);
         model.addAttribute("listProductCategory", productCategoryService.getAllProductCategory());
@@ -49,10 +53,14 @@ public class ProductCategoryController {
     }
 
     @GetMapping("/admin/new_productCategory")
-    public String showNewProductCategory(Model model) {
+    public String showNewProductCategory(Authentication authentication,Model model) {
         ProductCategory productCategory = new ProductCategory();
         model.addAttribute("productCategory", productCategory);
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("username", username);
 
+        model.addAttribute("user", user);
         return "Admin/new_productCategory";
     }
     @PostMapping("/admin/addProductCategory")
@@ -67,10 +75,14 @@ public class ProductCategoryController {
 
 
     @GetMapping("/admin/showFormForUpdateProductCategory/{id}")
-    public String showFormForUpdateProductCategory(@PathVariable(value = "id") long id, Model model) {
+    public String showFormForUpdateProductCategory(Authentication authentication,@PathVariable(value = "id") long id, Model model) {
         ProductCategory productCategory = productCategoryService.getProductCategoryById(id);
         model.addAttribute("productCategory", productCategory);
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("username", username);
 
+        model.addAttribute("user", user);
         return "Admin/update_productCategory";
     }
     @GetMapping("/admin/deleteProductCategory/{id}")
