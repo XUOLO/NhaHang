@@ -64,7 +64,7 @@
             <a href="" class="user_link">
               <i class="fa fa-user" aria-hidden="true"></i>
             </a>
-            <a class="cart_link" href="#">
+            <a class="cart_link" href="/user/viewCart">
               <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
                     <g>
@@ -400,7 +400,7 @@
                   <h6 th:text="${#numbers.formatInteger(list.price,3,'POINT')+' VND'}" >
 
                   </h6>
-                  <a href="">
+                  <a  th:href="@{/user/shoppingCart/add/{id}(id=${list.id})}">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                         <g>
                           <g>

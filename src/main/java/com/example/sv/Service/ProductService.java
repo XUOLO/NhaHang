@@ -27,15 +27,15 @@ public class ProductService {
         return ProductRepository.findById(id).get();
     }
 
-    public Product getProductById(long maSP) {
-        Optional<Product> optional = ProductRepository.findById(maSP);
+    public Product getProductById(long id) {
+        Optional<Product> optional = ProductRepository.findById(id);
         Product product = null;
         if (optional.isPresent()) {
             product = optional.get();
         }
         else
         {
-            throw new RuntimeException(" Cant find product id : " + maSP);
+            throw new RuntimeException(" Cant find product id : " + id);
         }
         return product;
     }
