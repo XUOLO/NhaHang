@@ -15,6 +15,7 @@
   <link rel="shortcut icon" href="/User/images/favicon.png" type="">
 
   <title> Xuolo </title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="/User/css/bootstrap.css" />
@@ -169,8 +170,9 @@
                     <h6 th:text="${#numbers.formatInteger(list.price,3,'POINT')+' VND'}" >
 
                     </h6>
-                    <a href="">
-                      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                    <a href="javascript:void(0);" class="add-to-cart-btn" th:data-product-id="${list.id}">
+
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                         <g>
                           <g>
                             <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -340,7 +342,26 @@ Welcome to our restaurant, where you can enjoy the most unique and wonderful cul
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
   </script>
   <!-- End Google Map -->
+  <script>
+$(document).ready(function() {
+    $('.add-to-cart-btn').click(function() {
+        var productId = $(this).data('product-id');
 
+        $.ajax({
+            type: 'GET',
+            url: '/user/shoppingCart/add/' + productId,
+            success: function(response) {
+                // Xử lý kết quả thành công
+                alert('Thêm vào giỏ hàng thành công');
+            },
+            error: function() {
+                // Xử lý lỗi (nếu có)
+                alert('Đã xảy ra lỗi khi thêm vào giỏ hàng');
+            }
+        });
+    });
+});
+</script>
 </body>
 
 </html>

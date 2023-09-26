@@ -17,7 +17,7 @@
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="/User/css/bootstrap.css" />
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!--owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
   <!-- nice select  -->
@@ -145,7 +145,7 @@
                     Fast Food Restaurant
                   </h1>
                   <p>
-                    Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                  BBQ Restaurant is the ideal destination for food lovers. With a diverse menu of delicious grilled dishes, traditional dishes and rich side dishes, we are committed to bringing you a memorable meal." with unique flavor and excellent quality.
                   </p>
                   <div class="btn-box">
                     <a href="" class="btn1">
@@ -166,8 +166,7 @@
                     Fast Food Restaurant
                   </h1>
                   <p>
-                    Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                  </p>
+                    Professional service and cozy space at BBQ Restaurant will make you feel like you are enjoying a meal at your beloved home. With our enthusiastic and attentive staff, we will ensure you have a wonderful culinary experience and feel comfortable from the moment you set foot in the restaurant until the moment you leave.                  </p>
                   <div class="btn-box">
                     <a href="" class="btn1">
                       Order Now
@@ -184,10 +183,10 @@
               <div class="col-md-7 col-lg-6 ">
                 <div class="detail-box">
                   <h1>
-                    Fast Food Restaurant
+                    BBQ Restaurant
                   </h1>
                   <p>
-                    Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                    BBQ Restaurant brings an exciting experience with unique flavors. With the perfect combination of delicious food, comfortable space and dedicated service, we are committed to bringing you wonderful culinary experiences. Let's explore the world of BBQ and enjoy excellent dishes at our restaurant.
                   </p>
                   <div class="btn-box">
                     <a href="" class="btn1">
@@ -400,7 +399,7 @@
                   <h6 th:text="${#numbers.formatInteger(list.price,3,'POINT')+' VND'}" >
 
                   </h6>
-                  <a  th:href="@{/user/shoppingCart/add/{id}(id=${list.id})}">
+                  <a href="javascript:void(0);" class="add-to-cart-btn" th:data-product-id="${list.id}">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                         <g>
                           <g>
@@ -724,7 +723,26 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
 </script>
 <!-- End Google Map -->
+<script>
+$(document).ready(function() {
+    $('.add-to-cart-btn').click(function() {
+        var productId = $(this).data('product-id');
 
+        $.ajax({
+            type: 'GET',
+            url: '/user/shoppingCart/add/' + productId,
+            success: function(response) {
+                // Xử lý kết quả thành công
+                alert('Thêm vào giỏ hàng thành công');
+            },
+            error: function() {
+                // Xử lý lỗi (nếu có)
+                alert('Đã xảy ra lỗi khi thêm vào giỏ hàng');
+            }
+        });
+    });
+});
+</script>
 </body>
 
 </html>

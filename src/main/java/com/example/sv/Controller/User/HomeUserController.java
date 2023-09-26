@@ -67,12 +67,20 @@ public class HomeUserController {
     public String getCategoryPage(@PathVariable("id") Long categoryId, Model model) {
         Category category = categoryService.getCategoryById(categoryId);
         Contact contact= new Contact();
+        List<Product> productList = productService.getAllProduct();
         String templateName =   "User/"+  category.getName().toLowerCase()  ;
 
         model.addAttribute("listProductCategory",productCategoryService.getAllProductCategory());
         model.addAttribute("listProduct",productService.getAllProduct());
         model.addAttribute("listCategory",categoryService.getAllCategory());
+        List<Product> sellingProducts = new ArrayList<>();
 
+        for (Product product : productList) {
+            if ("1".equals(product.getStatus())) {
+                sellingProducts.add(product);
+            }
+        }
+        model.addAttribute("listProduct", sellingProducts);
 
         model.addAttribute("contact", contact);
 

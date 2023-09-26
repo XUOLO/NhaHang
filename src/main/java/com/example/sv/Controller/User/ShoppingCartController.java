@@ -8,10 +8,10 @@ import com.example.sv.Service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+
 
 @Controller
 public class ShoppingCartController {
@@ -25,26 +25,37 @@ public class ShoppingCartController {
     ProductService productService;
 
     @GetMapping("/user/viewCart")
-    public String viewCart(Model model){
-        model.addAttribute("AllCartItem",shoppingCartService.getAllCartItem());
+    public String viewCart(Model model) {
+        Collection<CartItem> allCartItems = shoppingCartService.getAllCartItem();
+
+        model.addAttribute("AllCartItem", allCartItems);
         model.addAttribute("listCategory", categoryService.getAllCategory());
-        model.addAttribute("totalAmount",shoppingCartService.getAmount());
+        model.addAttribute("totalAmount", shoppingCartService.getAmount());
+
+        boolean hasItems = !allCartItems.isEmpty();
+        model.addAttribute("hasItems", hasItems);
+
         return "User/ShoppingCart";
     }
-    @GetMapping("/user/shoppingCart/add/{id}")
-    public String shoppingCartAdd(@PathVariable("id") Integer id ,Model model){
-        Product product= productService.getProductById(id);
-        if(product!=null){
-            CartItem cartItem = new CartItem();
-            cartItem.setProductId(product.getId());
-            cartItem.setName(product.getName());
-            cartItem.setPrice(product.getPrice());
-            cartItem.setQuantity(product.getQuantity());
-            shoppingCartService.add(cartItem);
-         }
 
-        return "redirect:/user/viewCart";
-    }
+//    @GetMapping("/user/shoppingCart/add/{id}")
+//    public String shoppingCartAdd(@PathVariable("id") Integer id) {
+//        Product product = productService.getProductById(id);
+//        if (product != null) {
+//            CartItem cartItem = new CartItem();
+//            cartItem.setProductId(product.getId());
+//            cartItem.setName(product.getName());
+//            cartItem.setPrice(product.getPrice());
+//            cartItem.setQuantity(product.getQuantity());
+//            cartItem.setImage(product.getImage());
+//            cartItem.setProductCategory(product.getProductCategory().getName());
+//            shoppingCartService.add(cartItem);
+//
+//            return "success"; // Trả về một phản hồi JSON hoặc thông báo thành công
+//        }
+//
+//        return "error"; // Trả về một phản hồi JSON hoặc thông báo lỗi
+//    }
 
 
     @GetMapping("/user/shoppingCart/clear")
