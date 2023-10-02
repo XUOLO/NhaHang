@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Setter
@@ -17,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,18 +33,29 @@ public class User {
     private String password;
     private String phone;
     private String address;
-
+    @Column(name = "provider", length = 50)
+    private String provider;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     private LocalDateTime createTime;
     @Lob
     private Blob image;
+    public boolean hasRole(String roleName) {
+        Iterator<Role> iterator = this.roles.iterator();
+        while (iterator.hasNext()) {
+            Role role = iterator.next();
+            if (role.getName().equals(roleName)) {
+                return true;
+            }
+        }
 
+        return false;
+    }
     public Blob getImage() {
         return image;
     }

@@ -45,7 +45,7 @@ public class HomeUserController {
 
 
     @GetMapping("/")
-    public String showIndexUser(Model model) {
+    public String showIndexUser(Model model, Principal principal) {
         List<Product> productList = productService.getAllProduct();
         List<Product> sellingProducts = new ArrayList<>();
 
@@ -58,7 +58,8 @@ public class HomeUserController {
         model.addAttribute("listCategory", categoryService.getAllCategory());
         model.addAttribute("listProductCategory", productCategoryService.getAllProductCategory());
         model.addAttribute("listProduct", sellingProducts);
-
+        boolean isAuthenticated = principal != null;
+        model.addAttribute("isAuthenticated", isAuthenticated);
         return "User/home";
     }
 

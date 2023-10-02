@@ -52,10 +52,13 @@ public class StaffController {
 
 
     @GetMapping("/admin/list_staff")
-    public String listStaff(Model model){
-
+    public String listStaff(Model model ,Authentication authentication){
+        String username = authentication.getName();
         model.addAttribute("listStaff", userService.getAllUser());
         model.addAttribute("listRole", roleService.getAllRole());
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
+        model.addAttribute("username", username);
 
         return "Admin/list_staff";
     }

@@ -60,9 +60,42 @@
             </li>
           </ul>
           <div class="user_option">
-            <a href="" class="user_link">
-              <i class="fa fa-user" aria-hidden="true"></i>
-            </a>
+            <div class="dropdown">
+              <a href="" class="user_link">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a>
+              <div class="dropdown-content">
+                <a href="/login">Login</a>
+                <a href="#">Account</a>
+              </div>
+            </div>
+            <style>
+  .dropdown-content {
+  display: none; /* Ban đầu ẩn dropdownlist */
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Khi di chuột vào icon, hiện dropdownlist */
+}
+
+.dropdown-content a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  padding: 8px 0;
+}
+
+.dropdown-content a:hover {
+   color: #ffbe33;
+}
+
+</style>
             <a class="cart_link" href="/user/viewCart">
               <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
@@ -133,6 +166,11 @@
   <!-- end header section -->
 </div>
 <main class="page">
+  <style>
+    .footer_section {
+    margin-top:160px;}
+
+  </style>
   <section class="shopping-cart dark">
     <div class="container">
       <div class="block-heading">
@@ -178,7 +216,7 @@
                 <td>
                   <form action="#" th:action="@{/user/shoppingCart/updateCart}" method="POST">
                     <input type="hidden" th:name="productId" th:value="${item.productId}">
-                    <input class="form-control quantity-input" type="number" min="1" th:name="quantity" th:value="${item.quantity}" onblur="this.form.submit()" style="width:50px;">
+                    <input class="form-control quantity-input" type="number" min="1" th:name="quantity" th:value="${item.quantity}" onblur="this.form.submit()" style="width:85px;">
                   </form>
                 </td>
                 <td>
@@ -188,7 +226,7 @@
                   <span th:text="${#numbers.formatInteger(item.price * item.quantity,3,'POINT')+' VND'}"></span>
                 </td>
                 <td>
-                  <a th:href="@{/user/shoppingCart/remove/{id}(id=${item.productId})}" class="btn btn-primary">Remove</a>
+                  <a th:href="@{/user/shoppingCart/remove/{id}(id=${item.productId})}" class="btn btn-danger">Remove</a>
                 </td>
               </tr>
               </tbody>
