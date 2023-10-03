@@ -4,6 +4,7 @@ import java.beans.Transient;
 import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -81,6 +82,9 @@ public class Product {
 				return "Unknown";
 		}
 	}
+
+	@ManyToMany(mappedBy = "products")
+	private List<Order> orders;
 	@ManyToMany(mappedBy = "products")
 	private Set<Reservation> reservations = new HashSet<>();
 	public String getStatus() {

@@ -64,7 +64,8 @@
                   <i class="fa fa-user" aria-hidden="true"></i>
                 </a>
                 <div class="dropdown-content">
-                  <a href="/login">Login</a>
+                  <a th:if="${isAuthenticated}" href="/logout">Logout</a>
+                  <a th:unless="${isAuthenticated}"  href="/login">Login</a>
                   <a href="#">Account</a>
                 </div>
               </div>

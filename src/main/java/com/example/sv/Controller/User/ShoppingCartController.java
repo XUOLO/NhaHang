@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Collection;
 
 
@@ -25,7 +26,7 @@ public class ShoppingCartController {
     ProductService productService;
 
     @GetMapping("/user/viewCart")
-    public String viewCart(Model model) {
+    public String viewCart(Model model, Principal principal) {
         Collection<CartItem> allCartItems = shoppingCartService.getAllCartItem();
 
         model.addAttribute("AllCartItem", allCartItems);
@@ -34,28 +35,12 @@ public class ShoppingCartController {
 
         boolean hasItems = !allCartItems.isEmpty();
         model.addAttribute("hasItems", hasItems);
-
+        boolean isAuthenticated = principal != null;
+        model.addAttribute("isAuthenticated", isAuthenticated);
         return "User/ShoppingCart";
     }
 
-//    @GetMapping("/user/shoppingCart/add/{id}")
-//    public String shoppingCartAdd(@PathVariable("id") Integer id) {
-//        Product product = productService.getProductById(id);
-//        if (product != null) {
-//            CartItem cartItem = new CartItem();
-//            cartItem.setProductId(product.getId());
-//            cartItem.setName(product.getName());
-//            cartItem.setPrice(product.getPrice());
-//            cartItem.setQuantity(product.getQuantity());
-//            cartItem.setImage(product.getImage());
-//            cartItem.setProductCategory(product.getProductCategory().getName());
-//            shoppingCartService.add(cartItem);
-//
-//            return "success"; // Trả về một phản hồi JSON hoặc thông báo thành công
-//        }
-//
-//        return "error"; // Trả về một phản hồi JSON hoặc thông báo lỗi
-//    }
+
 
 
     @GetMapping("/user/shoppingCart/clear")

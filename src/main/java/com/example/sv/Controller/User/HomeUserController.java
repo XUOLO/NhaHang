@@ -11,7 +11,9 @@ import com.example.sv.Service.ProductCategoryService;
 import com.example.sv.Service.ProductService;
 import com.example.sv.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,15 +47,27 @@ public class HomeUserController {
 
 
     @GetMapping("/")
-    public String showIndexUser(Model model, Principal principal) {
+    public String showIndexUser(Model model, Principal principal, HttpSession session, Authentication authentication) {
         List<Product> productList = productService.getAllProduct();
         List<Product> sellingProducts = new ArrayList<>();
-
         for (Product product : productList) {
             if ("1".equals(product.getStatus())) {
                 sellingProducts.add(product);
             }
         }
+
+        String username = (String) session.getAttribute("username");
+        String name = (String) session.getAttribute("name");
+
+        model.addAttribute("username", username);
+        model.addAttribute("name", name);
+
+//        String username = authentication.getName();
+//        User user = userService.findUserByUsername(username);
+//        model.addAttribute("user", user);
+//        model.addAttribute("username", user.getName());
+//        model.addAttribute("userid", user.getId());
+
 
         model.addAttribute("listCategory", categoryService.getAllCategory());
         model.addAttribute("listProductCategory", productCategoryService.getAllProductCategory());
@@ -65,7 +79,7 @@ public class HomeUserController {
 
 
     @GetMapping("/user/category/{id}")
-    public String getCategoryPage(@PathVariable("id") Long categoryId, Model model) {
+    public String getCategoryPage(@PathVariable("id") Long categoryId, Model model,Principal principal) {
         Category category = categoryService.getCategoryById(categoryId);
         Contact contact= new Contact();
         List<Product> productList = productService.getAllProduct();
@@ -81,6 +95,9 @@ public class HomeUserController {
                 sellingProducts.add(product);
             }
         }
+
+        boolean isAuthenticated = principal != null;
+        model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("listProduct", sellingProducts);
 
         model.addAttribute("contact", contact);

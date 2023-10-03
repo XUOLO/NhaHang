@@ -25,6 +25,8 @@ import java.io.IOException;
 public class SpringSecurityConfig   {
     @Autowired
     private LoginSuccessHandler loginSuccessHandler;
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
     private UserDetailsService userDetailsService;
     @Bean
     public static PasswordEncoder passwordEncoder(){
@@ -46,6 +48,8 @@ public class SpringSecurityConfig   {
 //            }
 //        };
 //    }
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -71,9 +75,9 @@ public class SpringSecurityConfig   {
                         .permitAll()
                 )
                 .logout(logout -> logout.logoutUrl("/logout")
-//                        .logoutSuccessHandler(logoutSuccessHandler())
-                                .logoutSuccessUrl("/login?logout")
-                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessHandler(customLogoutSuccessHandler)
+                        .logoutSuccessUrl("/login?logout")
+                        .deleteCookies("MY_SESSION")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
 

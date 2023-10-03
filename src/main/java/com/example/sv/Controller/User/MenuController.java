@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class MenuController {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
     @GetMapping("/user/menu")
-    public String viewMenu(Model model){
+    public String viewMenu(Model model, Principal principal){
 
         List<Product> productList = productService.getAllProduct();
         List<Product> sellingProducts = new ArrayList<>();
@@ -45,7 +46,8 @@ public class MenuController {
                 sellingProducts.add(product);
             }
         }
-
+        boolean isAuthenticated = principal != null;
+        model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("listCategory", categoryService.getAllCategory());
         model.addAttribute("listProductCategory", productCategoryService.getAllProductCategory());
         model.addAttribute("listProduct", sellingProducts);
