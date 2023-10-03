@@ -34,6 +34,24 @@ public class Order {
 
     @Column(name = "Total")
     private double  total;
+    private String status;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    public String getStatusString() {
+        switch (status) {
+            case "1":
+                return "Handling";
+            case "2":
+                return "Confirmed";
+            case "3":
+                return "Cancel";
+
+            default:
+                return "Unknown";
+        }
+    }
     @ManyToMany
     @JoinTable(
             name = "order_product",

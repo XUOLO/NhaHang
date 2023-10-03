@@ -90,9 +90,9 @@ private OrderDetailRepository orderDetailRepository;
                              @RequestParam("address") String address,
                              @RequestParam("phone") String phone,
                              @RequestParam("email") String email,
-                             @ModelAttribute("order") Order order,
+                             @ModelAttribute("order") Order order,Model model,
                              HttpSession session) {
-         String username = (String) session.getAttribute("username");
+        String username = (String) session.getAttribute("username");
         Long userId = (Long) session.getAttribute("userId");
         User user = userService.viewById(userId);
 
@@ -103,11 +103,73 @@ private OrderDetailRepository orderDetailRepository;
         order.setOrderDate(LocalDate.now());
         order.setUser(user);
         order.setTotal(shoppingCartService.getAmount());
+        order.setStatus("1");
+
+        Collection<CartItem> cartItems = shoppingCartService.getAllCartItem();
+        List<String> errorMessages = new ArrayList<>();
+
+        for (CartItem cartItem : cartItems) {
+            if (cartItem.getProductId() != null) {
+                Long productId = cartItem.getProductId();
+                int quantityToOrder = cartItem.getQuantity();
+
+                Product product = productRepository.findById(productId).orElse(null);
+                if (product != null) {
+                    int availableQuantity = product.getQuantity();
+                    if (quantityToOrder > availableQuantity) {
+                         String errorMessage = "Product '" + product.getName() + "' not enough quantity.";
+                        errorMessages.add(errorMessage);
+
+                    }
+                }
+            }
+        }
+
+        if (!errorMessages.isEmpty()) {
+            // Có ít nhất một sản phẩm không đủ số lượng, thực hiện xử lý thông báo lỗi, ví dụ: đẩy danh sách thông báo lỗi vào model và trả về trang lỗi
+             model.addAttribute("errorMessages", errorMessages);
+            return "User/ErrorPage";
+        }
 
         orderRepository.save(order);
+        Long orderId = order.getId();
+
+        // Trừ số lượng sản phẩm trong cơ sở dữ liệu
+        for (CartItem cartItem : cartItems) {
+            if (cartItem.getProductId() != null) {
+                Long productId = cartItem.getProductId();
+                int quantityToOrder = cartItem.getQuantity();
+
+                Product product = productRepository.findById(productId).orElse(null);
+                if (product != null) {
+                    int availableQuantity = product.getQuantity();
+                    int updatedQuantity = availableQuantity - quantityToOrder;
+                    product.setQuantity(updatedQuantity);
+                    productRepository.save(product);
+                }
+            }
+        }
+
+         for (CartItem cartItem : cartItems) {
+            if (cartItem.getProductId() != null) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrder(order);
+
+                Long productId = cartItem.getProductId();
+                Product product = productRepository.findById(productId).orElse(null);
+                if (product != null) {
+                    orderDetail.setProduct(product);
+                    orderDetail.setPrice(product.getPrice());
+                    orderDetail.setQuantity(cartItem.getQuantity());
+
+                    orderDetailRepository.save(orderDetail);
+                }
+            }
+        }
 
 
-         shoppingCartService.clear();
+
+        shoppingCartService.clear();
 
         return "User/checkOutSuccess";
     }

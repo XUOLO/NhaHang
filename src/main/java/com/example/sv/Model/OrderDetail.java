@@ -2,51 +2,51 @@ package com.example.sv.Model;
 
 
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "OrderDetail")
 public class OrderDetail {
 
     @Id
-    @Column(name = "OrderId")
-    private Long orderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @Column(name = "ProductId")
-    private long productId;
-
-    @Column(name = "ProductName")
-    private String productName;
-
-    @Column(name = "Quantity")
+    @Column(name = "quantity")
     private long quantity;
 
-    @Column(name = "Price")
+    @Column(name = "price")
     private double price;
 
-    public String getProductName() {
-        return productName;
+    public Long getId() {
+        return id;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public long getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public long getQuantity() {

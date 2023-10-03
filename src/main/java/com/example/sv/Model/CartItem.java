@@ -27,7 +27,7 @@ public class CartItem {
         this.image = image;
     }
 
-    public long getProductId() {
+    public Long getProductId() {
         return productId;
     }
 

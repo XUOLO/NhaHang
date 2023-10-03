@@ -40,7 +40,7 @@ public class Product {
 	  @NotBlank(message = "Detail not null")
 	  @Column(name = "Detail")
 	  private String detail;
-	@Positive(message = "Quantity > 0")
+
 	@Column(name = "Quantity")
 	private int quantity;
 

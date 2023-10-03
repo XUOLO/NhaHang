@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-
+    @Query("SELECT MAX(o.id) FROM Order o")
+    Long findLastOrderId();
 }

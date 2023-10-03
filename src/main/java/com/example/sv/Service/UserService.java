@@ -28,8 +28,6 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-
-        // Lưu người dùng vào cơ sở dữ liệu
         userRepository.save(user);
         this.userRepository.save(user);
 
