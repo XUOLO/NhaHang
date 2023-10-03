@@ -38,11 +38,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
         User user = userService.findUserByUsername(username);
 
-        // Lưu tên người dùng vào Model
+
         request.getSession().setAttribute("username", username);
         request.getSession().setAttribute("name", user.getName());
+        request.getSession().setAttribute("userId", user.getId());
 
-        // Chuyển hướng người dùng đến đường dẫn tương ứng
         response.sendRedirect(redirectUrl);
     }
 }

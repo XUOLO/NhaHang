@@ -33,7 +33,7 @@ public class Order {
     private String email;
 
     @Column(name = "Total")
-    private int  price;
+    private double  total;
     @ManyToMany
     @JoinTable(
             name = "order_product",
@@ -81,12 +81,12 @@ public class Order {
         this.user = user;
     }
 
-    public int getPrice() {
-        return price;
+    public double getTotal() {
+        return total;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public Order(User user, LocalDate orderDate) {

@@ -1,41 +1,42 @@
 package com.example.sv.Controller.User;
 
-import com.example.sv.Model.CartItem;
-import com.example.sv.Model.Order;
-import com.example.sv.Model.Product;
-import com.example.sv.Model.User;
+import com.example.sv.Model.*;
+import com.example.sv.Repository.OrderDetailRepository;
 import com.example.sv.Repository.OrderRepository;
 import com.example.sv.Repository.ProductRepository;
 import com.example.sv.Repository.UserRepository;
 import com.example.sv.Service.CategoryService;
+import com.example.sv.Service.OrderService;
 import com.example.sv.Service.ShoppingCartService;
 import com.example.sv.Service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 public class CheckOutController
 {
 @Autowired
 private OrderRepository orderRepository;
+@Autowired
+private OrderDetailRepository orderDetailRepository;
     @Autowired
     private ShoppingCartService shoppingCartService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -58,7 +59,7 @@ private OrderRepository orderRepository;
 //        return "User/checkOut";
 //    }
     @PostMapping("/user/checkOut")
-    public String showCheckOut(Model model, Authentication authentication,Principal principal) {
+    public String showCheckOut(Model model, Authentication authentication,Principal principal,HttpSession session) {
 
         if (authentication == null || !authentication.isAuthenticated()) {
 
@@ -70,36 +71,44 @@ private OrderRepository orderRepository;
         model.addAttribute("AllCartItem", allCartItems);
         model.addAttribute("listCategory", categoryService.getAllCategory());
         model.addAttribute("totalAmount", shoppingCartService.getAmount());
+
+
+
+        String username = (String) session.getAttribute("username");
+        String name = (String) session.getAttribute("name");
+        Long userId = (Long) session.getAttribute("userId");
+        model.addAttribute("username", username);
+        model.addAttribute("name", name);
+        model.addAttribute("userId", userId);
+
         return "User/checkOut";
     }
 
 
-    @PostMapping("/checkout")
-    public String placeOrder(@AuthenticationPrincipal UserDetails userDetails, @RequestParam("name") String name,
+    @PostMapping("/user/placeOrder")
+    public String placeOrder(@RequestParam("name") String name,
                              @RequestParam("address") String address,
                              @RequestParam("phone") String phone,
                              @RequestParam("email") String email,
-                             @RequestParam("products") List<Long> productIds) {
+                             @ModelAttribute("order") Order order,
+                             HttpSession session) {
+         String username = (String) session.getAttribute("username");
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.viewById(userId);
 
-
-
-        Long userId = Long.valueOf(userDetails.getUsername());
-        Order order = new Order();
         order.setName(name);
         order.setAddress(address);
         order.setPhone(phone);
         order.setEmail(email);
+        order.setOrderDate(LocalDate.now());
+        order.setUser(user);
+        order.setTotal(shoppingCartService.getAmount());
 
-
-
-
-        List<Product> products = productRepository.findAllById(productIds);
-        order.setProducts(products);
-
-        // Save the order to the database
         orderRepository.save(order);
 
-        // Redirect to a success page or perform other necessary actions
+
+         shoppingCartService.clear();
+
         return "User/checkOutSuccess";
     }
 

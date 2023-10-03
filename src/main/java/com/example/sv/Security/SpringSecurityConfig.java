@@ -84,8 +84,8 @@ public class SpringSecurityConfig   {
                         .permitAll()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/logout"))
-                ) ;
+                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/login"))
+                );
 
 
         return http.build();

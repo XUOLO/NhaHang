@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
   <!-- Basic -->
@@ -155,8 +155,8 @@
                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
               </form>
-              <a href="" class="order_online">
-                Order Online
+              <a  th:if="${isAuthenticated}" class="order_online"  th:text=" 'Hi '+ ${name}+'!'">
+
               </a>
             </div>
           </div>

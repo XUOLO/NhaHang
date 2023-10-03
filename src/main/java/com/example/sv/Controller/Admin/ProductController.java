@@ -91,11 +91,11 @@ public class ProductController {
     @PostMapping("/admin/addProduct")
     public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, @RequestParam("image") MultipartFile file, Model model) throws IOException, SerialException, SQLException {
         if (file.isEmpty()) {
-            product.setImage(null); // Gán giá trị null cho trường 'image' nếu không có tệp tin tải lên
+            product.setImage(null);
         } else {
             byte[] bytes = file.getBytes();
             Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-            product.setImage(blob); // Gán giá trị 'blob' cho trường 'image' nếu có tệp tin tải lên
+            product.setImage(blob);
         }
         product.setCreateTime(LocalDateTime.now());
         product.setStatus("2");
@@ -127,11 +127,11 @@ public class ProductController {
                            @RequestParam("image") MultipartFile file) throws IOException, SerialException, SQLException {
 
         if (file.isEmpty()) {
-            product.setImage(null); // Gán giá trị null cho trường 'image' nếu không có tệp tin tải lên
+            product.setImage(null);
         } else {
             byte[] bytes = file.getBytes();
             Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-            product.setImage(blob); // Gán giá trị 'blob' cho trường 'image' nếu có tệp tin tải lên
+            product.setImage(blob);
         }
 
             ProductService.saveProduct(product);
