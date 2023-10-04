@@ -130,7 +130,10 @@ private OrderDetailRepository orderDetailRepository;
              model.addAttribute("errorMessages", errorMessages);
             return "User/ErrorPage";
         }
-
+        Random random = new Random();
+        int randomNumber = random.nextInt(900000) + 100000;
+        String code = "XL" + String.valueOf(randomNumber);
+        order.setCode(code);
         orderRepository.save(order);
         Long orderId = order.getId();
 

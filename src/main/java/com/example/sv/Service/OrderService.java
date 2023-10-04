@@ -29,6 +29,11 @@ public class OrderService {
         }
         return order;
     }
+
+    public List<Order> getOrdersByUserId(long userId) {
+        return orderRepository.findByUserId(userId);
+    }
+
     public List<Order> getAllOrder() {
         return orderRepository.findAll();
     }

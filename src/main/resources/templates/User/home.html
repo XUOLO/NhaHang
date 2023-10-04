@@ -69,7 +69,7 @@
                 <a th:if="${isAuthenticated}" href="/logout">Logout</a>
                 <a th:unless="${isAuthenticated}"  href="/login">Login</a>
 
-                <a href="#">Account</a>
+               <a  th:if="${isAuthenticated}" href="/user/info">Account</a>
 
               </div>
             </div>

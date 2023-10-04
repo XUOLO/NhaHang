@@ -35,7 +35,7 @@ public class Order {
     @Column(name = "Total")
     private double  total;
     private String status;
-
+    private String code;
     public void setStatus(String status) {
         this.status = status;
     }
@@ -51,6 +51,14 @@ public class Order {
             default:
                 return "Unknown";
         }
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getStatus() {

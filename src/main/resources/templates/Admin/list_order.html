@@ -25,6 +25,8 @@
                 <thead>
                 <tr>
                     <th scope="col">No.</th>
+                    <th scope="col">Order id</th>
+
                     <th scope="col">Customer name</th>
                     <th scope="col">Email</th>
                       <th scope="col">Total</th>
@@ -39,6 +41,8 @@
                 <tbody>
                 <tr th:each="list, index : ${listOrder}">
                     <td th:text="${index.index + 1}"> </td>
+                    <td th:text="${list.code}"></td>
+
                     <td th:text="${list.name}"></td>
                     <td th:text="${list.email}"></td>
                      <td th:text="${#numbers.formatInteger(list.total,3,'POINT')+' VND'}"></td>
