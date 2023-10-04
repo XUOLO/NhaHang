@@ -52,6 +52,11 @@ public class Order {
                 return "Unknown";
         }
     }
+
+    public String getStatus() {
+        return status;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "order_product",

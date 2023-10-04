@@ -7,6 +7,7 @@ import com.example.sv.Service.CategoryService;
 import com.example.sv.Service.ProductCategoryService;
 import com.example.sv.Service.ProductService;
 import com.example.sv.Service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +37,7 @@ public class MenuController {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
     @GetMapping("/user/menu")
-    public String viewMenu(Model model, Principal principal){
+    public String viewMenu(Model model, Principal principal, HttpSession session){
 
         List<Product> productList = productService.getAllProduct();
         List<Product> sellingProducts = new ArrayList<>();
@@ -46,6 +47,9 @@ public class MenuController {
                 sellingProducts.add(product);
             }
         }
+        String name = (String) session.getAttribute("name");
+
+        model.addAttribute("name", name);
         boolean isAuthenticated = principal != null;
         model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("listCategory", categoryService.getAllCategory());
